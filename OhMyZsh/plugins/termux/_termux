@@ -16,7 +16,69 @@ _termux() {
         'reset:Reset configuration to baseline defaults (auto-backup)'
     )
 
-    _describe -t commands 'termux subcommand' subcmds
+    if (( CURRENT == 2 )); then
+        _describe -t commands 'termux subcommand' subcmds
+    elif (( CURRENT == 3 )); then
+        case "${words[2]}" in
+            theme)
+                local -a theme_cmds
+                theme_cmds=(
+                    'list:List available dark and light themes'
+                    'set:Set active color scheme'
+                    'preview:Preview theme color blocks'
+                    'current:Show current active theme'
+                )
+                _describe -t commands 'theme subcommand' theme_cmds
+                ;;
+            font)
+                local -a font_cmds
+                font_cmds=(
+                    'list:List supported Nerd Fonts'
+                    'set:Download and set active font'
+                    'restore:Revert to default JetBrains Mono font'
+                )
+                _describe -t commands 'font subcommand' font_cmds
+                ;;
+            plugin)
+                local -a plugin_cmds
+                plugin_cmds=(
+                    'list:List installed custom plugins'
+                    'install:Clone and install a custom Zsh plugin'
+                    'update:Update all custom Git plugins'
+                    'remove:Remove a custom plugin'
+                )
+                _describe -t commands 'plugin subcommand' plugin_cmds
+                ;;
+            package|profile)
+                local -a package_cmds
+                package_cmds=(
+                    'list:List all available package profiles'
+                    'install:Install packages in a specific profile'
+                    'tools:Install modern CLI utilities'
+                )
+                _describe -t commands 'package subcommand' package_cmds
+                ;;
+            backup)
+                local -a backup_cmds
+                backup_cmds=(
+                    'list:List all timestamped backups'
+                    'create:Create a new timestamped backup'
+                    'restore:Restore from the latest available backup'
+                    'export:Export portable configuration snapshot archive'
+                    'import:Import configuration snapshot archive'
+                    'clean:Clean backups older than 30 days'
+                )
+                _describe -t commands 'backup subcommand' backup_cmds
+                ;;
+            doctor)
+                local -a doctor_flags
+                doctor_flags=(
+                    '--fix:Automatically repair identified errors'
+                )
+                _describe -t flags 'doctor flag' doctor_flags
+                ;;
+        esac
+    fi
 }
 
 _termux "$@"

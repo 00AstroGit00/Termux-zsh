@@ -275,6 +275,17 @@ finish_install() {
 }
 
 main() {
+	# Non-interactive mode: bypass menu entirely
+	if [[ "${AUTO_YES}" == "true" ]]; then
+		install_dependencies
+		install_optional_modern_tools
+		configure_termux
+		install_ohmyzsh
+		install_cli_tools
+		finish_install
+		exit 0
+	fi
+
 	printf "\n"
 	printf "${cyan}┌────────────────────────────────────────────────────────────┐${nocol}\n"
 	printf "${cyan}│${nocol}                   ${bold}Termux-Zsh Setup Menu${nocol}                    ${cyan}│${nocol}\n"

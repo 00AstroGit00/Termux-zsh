@@ -50,10 +50,16 @@ check_status "command -v zoxide &>/dev/null" "zoxide smart cd navigator is insta
 check_status "command -v delta &>/dev/null || command -v git-delta &>/dev/null" "git-delta diff viewer is installed" "delta is not installed (optional)." true
 check_status "grep -q 'allow-external-apps = true' '${TERMUX_HOME}/.termux/termux.properties' 2>/dev/null" "allow-external-apps = true is enabled in termux.properties" "allow-external-apps is not enabled in termux.properties (required for Tasker/Termux:API)." true
 
-# Check 13: Phantom process killer advisory for Android 12-15
+# Check 13: Phantom process killer advisory for Android 12-16
 android_ver="$(getprop ro.build.version.release 2>/dev/null || echo '')"
-if [[ "${android_ver}" =~ ^(1[2-5]) ]]; then
+if [[ "${android_ver}" =~ ^(1[2-6]) ]]; then
     ui_badge_msg "${badge_warn}" "Android ${android_ver} detected: Phantom Process Killer may terminate background tasks (>32 sub-processes). Disable in Developer Options if experiencing crashes."
+    warnings=$((warnings + 1))
+fi
+
+# Check 14: 16KB page size alignment advisory (Android 15+)
+if [[ "${android_ver}" =~ ^(1[5-9]|2[0-9]) ]]; then
+    ui_badge_msg "${badge_warn}" "Android ${android_ver} detected: 16KB page size alignment required for native binaries. Ensure custom compiled binaries use -z max-page-size=16384."
     warnings=$((warnings + 1))
 fi
 

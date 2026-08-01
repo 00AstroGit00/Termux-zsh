@@ -11,7 +11,7 @@ config_init_defaults() {
     mkdir -p "$(dirname "${CONF_FILE}")"
     if [[ ! -f "${CONF_FILE}" ]]; then
         cat << 'EOF' > "${CONF_FILE}"
-# Termux-Zsh v7.0.0 Unified Configuration File
+# Termux-Zsh v11.0.0 Unified Configuration File
 DEFAULT_THEME=IrBlack
 DEFAULT_FONT=JetBrainsMono
 DEFAULT_PROMPT=powerlevel10k

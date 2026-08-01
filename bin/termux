@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Termux-Zsh Master CLI Entrypoint (v9.0.0 Enterprise Release)
+# Termux-Zsh Master CLI Entrypoint (v11.0.0)
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -41,7 +41,8 @@ run_benchmark() {
 
 run_reset() {
     ui_badge_msg "${badge_warn}" "Creating snapshot backup before factory reset..."
-    exec bash "${SCRIPT_DIR}/bin/termux-backup" export "${HOME}/termux-zsh-pre-reset.tar.gz" &>/dev/null || true
+    bash "${SCRIPT_DIR}/bin/termux-backup" export "${HOME}/termux-zsh-pre-reset.tar.gz" &>/dev/null || true
+    ui_badge_msg "${badge_ok}" "Snapshot saved. Running factory reset..."
     exec bash "${SCRIPT_DIR}/setup.sh" -y
 }
 
@@ -61,11 +62,11 @@ case "${subcmd}" in
         exit 0
         ;;
     version|--version|-v)
-        printf "Termux-zsh Framework v10.0.0 (Milestone Release)\n"
+        printf "Termux-zsh Framework v11.0.0\n"
         exit 0
         ;;
     help|--help|-h|*)
-        printf "${bold}Termux-Zsh Master CLI Framework (v10.0.0)${nocol}\n\n"
+        printf "${bold}Termux-Zsh Master CLI Framework (v11.0.0)${nocol}\n\n"
         printf "Usage: termux <subcommand> [args]\n\n"
         printf "Subcommands:\n"
         printf "  doctor     Run diagnostic health checks & auto-repairs\n"

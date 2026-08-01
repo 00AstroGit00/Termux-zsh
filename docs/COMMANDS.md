@@ -1,4 +1,4 @@
-# Termux-Zsh v9.0.0 — Command Reference Manual
+# Termux-Zsh v11.0.0 — Command Reference Manual
 
 All management commands are accessed through the unified `termux` master CLI entrypoint.
 

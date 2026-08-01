@@ -26,11 +26,19 @@ clean_backups() {
     fi
 }
 
+notify_completion() {
+    local title="${1}" content="${2}"
+    if command -v termux-notification &>/dev/null; then
+        termux-notification --title "${title}" --content "${content}" --priority low 2>/dev/null || true
+    fi
+}
+
 export_snapshot() {
     local outfile="${1:-${TERMUX_HOME}/termux-zsh-snapshot.tar.gz}"
     ui_badge_msg "${badge_ok}" "Exporting configuration snapshot to ${outfile}..."
     tar -czf "${outfile}" -C "${TERMUX_HOME}" .termux .zshrc .p10k.zsh .config/lf 2>/dev/null || true
     ui_badge_msg "${badge_ok}" "Export complete: ${outfile}"
+    notify_completion "Termux-zsh Backup Export" "Exported snapshot to ${outfile}"
 }
 
 import_snapshot() {
@@ -42,6 +50,7 @@ import_snapshot() {
     ui_badge_msg "${badge_ok}" "Importing configuration snapshot from ${infile}..."
     tar -xzf "${infile}" -C "${TERMUX_HOME}"
     ui_badge_msg "${badge_ok}" "Import complete! Reload settings with: termux-reload-settings"
+    notify_completion "Termux-zsh Backup Import" "Imported snapshot from ${infile}"
 }
 
 cmd="${1:-list}"
