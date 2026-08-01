@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Termux-Zsh Master CLI Entrypoint (v12.0.0)
+# Termux-Zsh Master CLI Entrypoint (v13.0.0)
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -9,7 +9,8 @@ subcmd="${1:-help}"
 shift || true
 
 run_benchmark() {
-    printf "${cyan}Benchmarking Zsh startup latency (10 iterations)...${nocol}\n"
+    local verbose="${1:-}"
+    ui_badge_msg "${badge_ok}" "Measuring Zsh startup latency over 10 iterations..."
     local total=0
     for i in {1..5}; do zsh -i -c exit &>/dev/null; done # Warm-up
     for i in {1..10}; do
@@ -37,6 +38,11 @@ run_benchmark() {
     else
         ui_badge_msg "${badge_ok}" "Benchmark completed."
     fi
+
+    if [[ "${verbose}" == "--verbose" || "${verbose}" == "-v" ]]; then
+        printf "\n${bold}Plugin & Startup Function Profiling (zprof):${nocol}\n"
+        zsh -i -c "zmodload zsh/zprof; zprof" 2>/dev/null | head -n 15 || true
+    fi
 }
 
 run_reset() {
@@ -55,7 +61,7 @@ case "${subcmd}" in
     backup)   exec bash "${SCRIPT_DIR}/bin/termux-backup" "$@" ;;
     settings) exec bash "${SCRIPT_DIR}/bin/termux-settings" "$@" ;;
     failsafe) exec bash "${SCRIPT_DIR}/bin/termux-failsafe" "$@" ;;
-    benchmark) run_benchmark ;;
+    benchmark) run_benchmark "${1:-}" ;;
     reset)    run_reset ;;
     update)
         printf "Checking for updates...\n"
@@ -63,11 +69,11 @@ case "${subcmd}" in
         exit 0
         ;;
     version|--version|-v)
-        printf "Termux-zsh Framework v12.0.0\n"
+        printf "Termux-zsh Framework v13.0.0\n"
         exit 0
         ;;
     help|--help|-h|*)
-        printf "${bold}Termux-Zsh Master CLI Framework (v12.0.0)${nocol}\n\n"
+        printf "${bold}Termux-Zsh Master CLI Framework (v13.0.0)${nocol}\n\n"
         printf "Usage: termux <subcommand> [args]\n\n"
         printf "Subcommands:\n"
         printf "  doctor     Run diagnostic health checks & auto-repairs\n"

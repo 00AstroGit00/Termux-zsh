@@ -5,7 +5,7 @@
 [![Latest Release](https://img.shields.io/github/v/release/00AstroGit00/Termux-zsh?style=for-the-badge&color=00FF66&logo=github)](https://github.com/00AstroGit00/Termux-zsh/releases)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/00AstroGit00/Termux-zsh/ci.yml?branch=master&style=for-the-badge&logo=githubactions&color=00E5FF)](https://github.com/00AstroGit00/Termux-zsh/actions)
 [![License](https://img.shields.io/github/license/00AstroGit00/Termux-zsh?style=for-the-badge&color=7AA2F7)](LICENSE)
-[![API Status](https://img.shields.io/badge/API-FROZEN_v12.0-green?style=for-the-badge&color=00FF66)](#)
+[![API Status](https://img.shields.io/badge/API-FROZEN_v13.0-green?style=for-the-badge&color=00FF66)](#)
 [![Android](https://img.shields.io/badge/Android-10--16_Compatible-blue?style=for-the-badge&logo=android&color=3DDC84)](#)
 
 ![Termux-zsh-SS](Termux-zsh-SS.png)

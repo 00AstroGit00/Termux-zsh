@@ -15,8 +15,24 @@ usage() {
     printf "  restore         Restore from the latest available backup\n"
     printf "  export [file]   Export portable configuration snapshot archive (.tar.gz)\n"
     printf "  import <file>   Import configuration snapshot archive (.tar.gz)\n"
+    printf "  prune [--keep N] Prune old backups, keeping only N most recent (default 5)\n"
     printf "  clean           Clean backups older than 30 days\n"
     exit 0
+}
+
+prune_backups() {
+    local keep="${1:-5}"
+    if [[ -d "${BACKUP_ROOT}" ]]; then
+        local count=0
+        while IFS= read -r dir; do
+            count=$((count + 1))
+            if [[ ${count} -gt ${keep} ]]; then
+                rm -rf "${dir}"
+                ui_badge_msg "${badge_warn}" "Pruned old backup: ${dir}"
+            fi
+        done < <(ls -td "${BACKUP_ROOT}"/backup_* 2>/dev/null || true)
+        ui_badge_msg "${badge_ok}" "Pruning complete. Kept latest ${keep} backups."
+    fi
 }
 
 clean_backups() {
@@ -60,6 +76,15 @@ case "${cmd}" in
     restore) backup_restore_latest ;;
     export) export_snapshot "${2:-${TERMUX_HOME}/termux-zsh-snapshot.tar.gz}" ;;
     import) import_snapshot "${2:-}" ;;
+    prune)
+        keep=5
+        if [[ "${2:-}" == "--keep" && -n "${3:-}" ]]; then
+            keep="${3}"
+        elif [[ -n "${2:-}" && "${2:-}" =~ ^[0-9]+$ ]]; then
+            keep="${2}"
+        fi
+        prune_backups "${keep}"
+        ;;
     clean) clean_backups ;;
     *) usage ;;
 esac

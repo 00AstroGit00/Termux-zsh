@@ -67,6 +67,7 @@ _termux() {
                     'restore:Restore from the latest available backup'
                     'export:Export portable configuration snapshot archive'
                     'import:Import configuration snapshot archive'
+                    'prune:Prune old backups, keeping only N most recent'
                     'clean:Clean backups older than 30 days'
                 )
                 _describe -t commands 'backup subcommand' backup_cmds
