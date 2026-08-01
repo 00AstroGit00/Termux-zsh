@@ -15,7 +15,7 @@ termux <subcommand> [args]
 | Command | Usage | Description |
 | :--- | :--- | :--- |
 | `termux settings` | `termux settings` | Launch interactive TUI settings dashboard. |
-| `termux doctor` | `termux doctor [--fix]` | Run 13 automated diagnostic health checks & Android 14/15 advisories. Pass `--fix` to auto-repair. |
+| `termux doctor` | `termux doctor [--fix]` | Run 14 automated diagnostic health checks & Android 14–16 advisories. Pass `--fix` to auto-repair. |
 | `termux theme` | `termux theme [list\|set \<name\>\|preview \<name\>\|current]` | Color scheme manager with 16-color ANSI previewer. |
 | `termux font` | `termux font [list\|set \<1-12\>\|restore]` | Nerd Font manager. Supports 12 fonts including JetBrains Mono, Fira Code, Hack. |
 | `termux plugin` | `termux plugin [list\|install \<url\>\|update\|remove \<name\>]` | Zsh plugin lifecycle manager. |
