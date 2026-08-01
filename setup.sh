@@ -24,12 +24,17 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TIMESTAMP="$(date +"%Y-%m-%d_%H-%M-%S")"
 BACKUP_DIR="${HOME}/.termux-zsh-backups/backup_${TIMESTAMP}"
 LANG_CODE="en"
+AUTO_YES=false
 
 # Pre-scan all arguments for -l <lang_code> before loading lang files
 for ((i = 1; i <= "${#}"; i++)); do
 	arg="${!i}"
 	next_index=$((i + 1))
 	next_arg="${!next_index:-}"
+
+	if [[ ${arg} == "-y" || ${arg} == "--yes" ]]; then
+		AUTO_YES=true
+	fi
 
 	if [[ ${arg} == "-l" ]]; then
 		if [[ -z ${next_arg} || ${next_arg} == -* ]]; then
@@ -60,9 +65,14 @@ while [[ ${#} -gt 0 ]]; do
 			find "${SCRIPT_DIR}/Termux/lang" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;
 			exit 0
 			;;
+		-y|--yes)
+			AUTO_YES=true
+			shift
+			;;
 		-h)
-			printf "${green}${COMMON_STRINGS[10]}${nocol}: setup.sh [-l <${COMMON_STRINGS[12]}>]\n"
+			printf "${green}${COMMON_STRINGS[10]}${nocol}: setup.sh [-y|--yes] [-l <${COMMON_STRINGS[12]}>]\n"
 			printf "${green}${COMMON_STRINGS[11]}${nocol}:\n"
+			printf "    -y, --yes          Non-interactive automatic mode (accept all defaults)\n"
 			printf "    -l <${COMMON_STRINGS[12]}> ${COMMON_STRINGS[13]}\n"
 			printf "    -ls                ${COMMON_STRINGS[14]}\n"
 			printf "    -h                 ${COMMON_STRINGS[15]}\n"
@@ -125,8 +135,12 @@ install_optional_modern_tools() {
 	printf "${cyan}│${nocol} Install eza, bat, fzf, zoxide, ripgrep, fd, delta?          ${cyan}│${nocol}\n"
 	printf "${cyan}│${nocol} (Improves file listing, viewing, searching, and navigation) ${cyan}│${nocol}\n"
 	printf "${cyan}└────────────────────────────────────────────────────────────┘${nocol}\n"
-	read -p "Install modern CLI tools? [Y/n] " -n 1 -r choice || choice="y"
-	echo
+	if [[ "${AUTO_YES}" == "true" ]]; then
+		choice="y"
+	else
+		read -p "Install modern CLI tools? [Y/n] " -n 1 -r choice || choice="y"
+		echo
+	fi
 	if [[ "${choice}" =~ ^[Yy]$ || -z "${choice}" ]]; then
 		printf "%b Installing modern CLI utilities via pkg...\n" "${badge_ok}"
 		if command -v pkg &>/dev/null; then
@@ -168,6 +182,7 @@ install_ohmyzsh() {
 	printf "%b %s...\n" "${badge_ok}" "${LANG_STRINGS[8]}"
 	clone_or_update_repo "https://github.com/zsh-users/zsh-autosuggestions.git" "${zsh_custom}/plugins/zsh-autosuggestions"
 	clone_or_update_repo "https://github.com/zsh-users/zsh-syntax-highlighting.git" "${zsh_custom}/plugins/zsh-syntax-highlighting"
+	clone_or_update_repo "https://github.com/Aloxaf/fzf-tab.git" "${zsh_custom}/plugins/fzf-tab"
 
 	printf "%b %s...\n" "${badge_ok}" "${LANG_STRINGS[9]}"
 	backup_item "${HOME}/.zshrc"

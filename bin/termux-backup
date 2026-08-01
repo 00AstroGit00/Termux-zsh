@@ -8,11 +8,13 @@ source "${SCRIPT_DIR}/core/ui.sh"
 source "${SCRIPT_DIR}/core/backup_engine.sh"
 
 usage() {
-    printf "${bold}Usage:${nocol} termux backup [command] [label]\n\n"
+    printf "${bold}Usage:${nocol} termux backup [command] [label|file]\n\n"
     printf "Commands:\n"
     printf "  list            List all timestamped backups\n"
     printf "  create [label]  Create a new timestamped backup\n"
     printf "  restore         Restore from the latest available backup\n"
+    printf "  export [file]   Export portable configuration snapshot archive (.tar.gz)\n"
+    printf "  import <file>   Import configuration snapshot archive (.tar.gz)\n"
     printf "  clean           Clean backups older than 30 days\n"
     exit 0
 }
@@ -24,11 +26,31 @@ clean_backups() {
     fi
 }
 
+export_snapshot() {
+    local outfile="${1:-${TERMUX_HOME}/termux-zsh-snapshot.tar.gz}"
+    ui_badge_msg "${badge_ok}" "Exporting configuration snapshot to ${outfile}..."
+    tar -czf "${outfile}" -C "${TERMUX_HOME}" .termux .zshrc .p10k.zsh .config/lf 2>/dev/null || true
+    ui_badge_msg "${badge_ok}" "Export complete: ${outfile}"
+}
+
+import_snapshot() {
+    local infile="${1:-}"
+    if [[ -z "${infile}" || ! -f "${infile}" ]]; then
+        ui_badge_msg "${badge_fail}" "Import archive file not found: ${infile}"
+        exit 1
+    fi
+    ui_badge_msg "${badge_ok}" "Importing configuration snapshot from ${infile}..."
+    tar -xzf "${infile}" -C "${TERMUX_HOME}"
+    ui_badge_msg "${badge_ok}" "Import complete! Reload settings with: termux-reload-settings"
+}
+
 cmd="${1:-list}"
 case "${cmd}" in
     list) backup_list ;;
     create) backup_create "${2:-manual}" ;;
     restore) backup_restore_latest ;;
+    export) export_snapshot "${2:-${TERMUX_HOME}/termux-zsh-snapshot.tar.gz}" ;;
+    import) import_snapshot "${2:-}" ;;
     clean) clean_backups ;;
     *) usage ;;
 esac

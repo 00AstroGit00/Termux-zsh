@@ -32,6 +32,7 @@ plugins=(
     npm
     zsh-autosuggestions
     zsh-syntax-highlighting
+    fzf-tab
 )
 
 # Load OhMyZsh framework

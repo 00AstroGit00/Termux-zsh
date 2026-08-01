@@ -17,7 +17,7 @@
 Copy and paste this single command into Termux:
 
 ```bash
-pkg update -y && pkg install -y git && rm -rf Termux-zsh && git clone --depth=1 https://github.com/00AstroGit00/Termux-zsh.git && cd Termux-zsh && bash setup.sh
+pkg update -y && pkg install -y git && rm -rf Termux-zsh && git clone --depth=1 https://github.com/00AstroGit00/Termux-zsh.git && cd Termux-zsh && bash setup.sh -y
 ```
 
 ---
@@ -50,7 +50,7 @@ Manage your environment effortlessly using the unified `termux` master command:
 | **`termux font`** | `termux font [list\|set\|restore]` | Switch Nerd Fonts (JetBrains Mono, Fira Code, Cascadia, Hack, MesloLGS). |
 | **`termux plugin`** | `termux plugin [list\|install\|update]` | Manage custom Zsh plugins. |
 | **`termux packages`** | `termux packages [list\|install]` | Install pre-configured developer package profiles. |
-| **`termux backup`** | `termux backup [list\|create\|restore]` | Manage atomic timestamped backups in `~/.termux-zsh-backups/`. |
+| **`termux backup`** | `termux backup [list\|create\|restore\|export\|import]` | Manage timestamped backups and portable snapshot archives. |
 
 ---
 
