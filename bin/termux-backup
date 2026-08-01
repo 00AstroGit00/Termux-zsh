@@ -8,7 +8,7 @@ source "${SCRIPT_DIR}/core/ui.sh"
 source "${SCRIPT_DIR}/core/backup_engine.sh"
 
 usage() {
-    printf "${bold}Usage:${nocol} termux-backup [command] [label]\n\n"
+    printf "${bold}Usage:${nocol} termux backup [command] [label]\n\n"
     printf "Commands:\n"
     printf "  list            List all timestamped backups\n"
     printf "  create [label]  Create a new timestamped backup\n"

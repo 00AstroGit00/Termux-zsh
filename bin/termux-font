@@ -7,7 +7,7 @@ source "${SCRIPT_DIR}/core/env.sh"
 source "${SCRIPT_DIR}/core/ui.sh"
 
 usage() {
-    printf "${bold}Usage:${nocol} termux-font [command]\n\n"
+    printf "${bold}Usage:${nocol} termux font [command]\n\n"
     printf "Commands:\n"
     printf "  list      List supported Nerd Fonts\n"
     printf "  set <1-12> Download and set active font\n"

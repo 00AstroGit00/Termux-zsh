@@ -9,7 +9,7 @@ source "${SCRIPT_DIR}/core/ui.sh"
 PLUGINS_DIR="${ZSH_CUSTOM_DIR}/plugins"
 
 usage() {
-    printf "${bold}Usage:${nocol} termux-plugin [command] [repo_url/name]\n\n"
+    printf "${bold}Usage:${nocol} termux plugin [command] [repo_url/name]\n\n"
     printf "Commands:\n"
     printf "  list            List installed custom plugins\n"
     printf "  install <url>   Clone and install a custom Zsh plugin\n"
