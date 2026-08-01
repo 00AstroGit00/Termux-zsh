@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Termux-Zsh Master CLI Entrypoint (v4.0 Enterprise Edition)
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "${SCRIPT_DIR}/core/api.sh"
+
+subcmd="${1:-help}"
+shift || true
+
+case "${subcmd}" in
+    doctor)   exec bash "${SCRIPT_DIR}/bin/termux-doctor" "$@" ;;
+    theme)    exec bash "${SCRIPT_DIR}/bin/termux-theme" "$@" ;;
+    font)     exec bash "${SCRIPT_DIR}/bin/termux-font" "$@" ;;
+    plugin)   exec bash "${SCRIPT_DIR}/bin/termux-plugin" "$@" ;;
+    package|profile) exec bash "${SCRIPT_DIR}/bin/termux-packages" "$@" ;;
+    backup)   exec bash "${SCRIPT_DIR}/bin/termux-backup" "$@" ;;
+    settings) exec bash "${SCRIPT_DIR}/bin/termux-settings" "$@" ;;
+    version|--version|-v)
+        printf "Termux-zsh Framework v4.0.0 (Enterprise Release)\n"
+        exit 0
+        ;;
+    help|--help|-h|*)
+        printf "${bold}Termux-Zsh Master CLI Framework (v4.0.0)${nocol}\n\n"
+        printf "Usage: termux <subcommand> [args]\n\n"
+        printf "Subcommands:\n"
+        printf "  doctor    Run diagnostic health checks & auto-repairs\n"
+        printf "  theme     Manage terminal color schemes and palettes\n"
+        printf "  font      Manage terminal Nerd Fonts\n"
+        printf "  plugin    Manage Zsh plugins and SDK manifests\n"
+        printf "  package   Manage developer package profiles\n"
+        printf "  backup    Manage timestamped configuration backups\n"
+        printf "  settings  Launch interactive settings dashboard TUI\n"
+        printf "  version   Display framework version details\n"
+        exit 0
+        ;;
+esac

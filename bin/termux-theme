@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# Termux-Zsh Theme Manager CLI
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "${SCRIPT_DIR}/core/env.sh"
+source "${SCRIPT_DIR}/core/ui.sh"
+
+COLORS_DIR="${SCRIPT_DIR}/Termux/colors"
+
+usage() {
+    printf "${bold}Usage:${nocol} termux-theme [command] [theme_name]\n\n"
+    printf "Commands:\n"
+    printf "  list            List available dark and light themes\n"
+    printf "  set <name>      Set active color scheme\n"
+    printf "  current         Show current active theme\n"
+    printf "  preview <name>  Preview theme color block\n"
+    exit 0
+}
+
+list_themes() {
+    printf "${cyan}Available Dark Themes:${nocol}\n"
+    for file in "${COLORS_DIR}/dark"/*.properties; do
+        printf "  - %s\n" "$(basename "${file%.*}")"
+    done
+    printf "\n${cyan}Available Light Themes:${nocol}\n"
+    for file in "${COLORS_DIR}/light"/*.properties; do
+        printf "  - %s\n" "$(basename "${file%.*}")"
+    done
+}
+
+set_theme() {
+    local target_name="${1}"
+    local target_file=""
+
+    if [[ -f "${COLORS_DIR}/dark/${target_name}.properties" ]]; then
+        target_file="${COLORS_DIR}/dark/${target_name}.properties"
+    elif [[ -f "${COLORS_DIR}/light/${target_name}.properties" ]]; then
+        target_file="${COLORS_DIR}/light/${target_name}.properties"
+    else
+        ui_badge_msg "${badge_fail}" "Theme not found: ${target_name}"
+        exit 1
+    fi
+
+    mkdir -p "${TERMUX_HOME}/.termux"
+    ln -fs "${target_file}" "${TERMUX_HOME}/.termux/colors.properties"
+    ui_badge_msg "${badge_ok}" "Applied theme: ${target_name}"
+    if command -v termux-reload-settings &>/dev/null; then
+        termux-reload-settings || true
+    fi
+}
+
+cmd="${1:-list}"
+case "${cmd}" in
+    list) list_themes ;;
+    set) set_theme "${2:-IrBlack}" ;;
+    current)
+        if [[ -L "${TERMUX_HOME}/.termux/colors.properties" ]]; then
+            basename "$(readlink "${TERMUX_HOME}/.termux/colors.properties" | sed 's/\.properties$//')"
+        else
+            printf "IrBlack\n"
+        fi
+        ;;
+    *) usage ;;
+esac

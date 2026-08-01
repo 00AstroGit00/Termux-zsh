@@ -20,7 +20,7 @@ LANG_CODE="en"
 for ((i = 1; i <= "${#}"; i++)); do
 	arg="${!i}"
 	next_index=$((i + 1))
-	next_arg="${!next_index}"
+	next_arg="${!next_index:-}"
 
 	if [[ ${arg} == "-l" ]]; then
 		if [[ -z ${next_arg} || ${next_arg} == -* ]]; then
@@ -89,8 +89,9 @@ printf "
 
 while true; do
 	printf "\n"
-	read -p "${LANG_STRINGS[7]} " input
-	input="$(xargs <<< "${input}")"
+	read -p "${LANG_STRINGS[7]} " input || input="q"
+	input="${input#"${input%%[![:space:]]*}"}"
+	input="${input%"${input##*[![:space:]]}"}"
 
 	if [[ ${input} == 1 ]]; then
 		THEME_TYPE="light"
@@ -115,16 +116,19 @@ printf "\n[${green}${COMMON_STRINGS[1]}${nocol}] ${COMMON_STRINGS[2]}\n"
 
 while true; do
 	printf "\n"
-	read -p "${LANG_STRINGS[9]} " input
-	input="$(xargs <<< "${input}")"
+	read -p "${LANG_STRINGS[9]} " input || input="q"
+	input="${input#"${input%%[![:space:]]*}"}"
+	input="${input%"${input##*[![:space:]]}"}"
 
 	if [[ ${input} == "q" || ${input} == "Q" ]]; then
 		exit 0
-	elif ((input >= 1 && input <= count)); then
+	elif [[ "${input}" =~ ^[0-9]+$ ]] && ((input >= 1 && input <= count)); then
 		choice="${colors_name[input]}"
 		ln -fs "${COLORS_DIR}/${THEME_TYPE}/${choice}.properties" "${WORKING_DIR}/colors.properties"
 		printf "${green}${LANG_STRINGS[11]}${nocol}\n"
-		termux-reload-settings
+		if command -v termux-reload-settings &>/dev/null; then
+			termux-reload-settings || true
+		fi
 		exit 0
 	else
 		printf "${red}${LANG_STRINGS[10]}${nocol}\n"

@@ -1,0 +1,46 @@
+{
+  "version": "4.0.0",
+  "updated_at": "2026-08-01",
+  "themes": [
+    {
+      "name": "IrBlack",
+      "author": "mbadolato",
+      "variant": "dark",
+      "oled_compatible": true,
+      "properties_file": "IrBlack.properties",
+      "verified": true
+    },
+    {
+      "name": "CatppuccinMocha",
+      "author": "catppuccin",
+      "variant": "dark",
+      "oled_compatible": true,
+      "properties_file": "CatppuccinMocha.properties",
+      "verified": true
+    },
+    {
+      "name": "TokyoNight",
+      "author": "folke",
+      "variant": "dark",
+      "oled_compatible": true,
+      "properties_file": "TokyoNight.properties",
+      "verified": true
+    },
+    {
+      "name": "Dracula",
+      "author": "dracula",
+      "variant": "dark",
+      "oled_compatible": true,
+      "properties_file": "Dracula.properties",
+      "verified": true
+    },
+    {
+      "name": "Nord",
+      "author": "arcticicestudio",
+      "variant": "dark",
+      "oled_compatible": false,
+      "properties_file": "Nord.properties",
+      "verified": true
+    }
+  ]
+}

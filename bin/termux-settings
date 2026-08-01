@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Termux-Zsh Interactive Settings TUI Manager
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "${SCRIPT_DIR}/core/env.sh"
+source "${SCRIPT_DIR}/core/ui.sh"
+
+show_menu() {
+    printf "\n"
+    printf "${cyan}┌────────────────────────────────────────────────────────────┐${nocol}\n"
+    printf "${cyan}│${nocol}            ${bold}Termux-Zsh Settings TUI Dashboard${nocol}             ${cyan}│${nocol}\n"
+    printf "${cyan}├────────────────────────────────────────────────────────────┤${nocol}\n"
+    printf "${cyan}│${nocol}  [${green}1${nocol}] Appearance & Color Scheme (termux-theme)             ${cyan}│${nocol}\n"
+    printf "${cyan}│${nocol}  [${green}2${nocol}] Font & Typography Manager (termux-font)               ${cyan}│${nocol}\n"
+    printf "${cyan}│${nocol}  [${green}3${nocol}] Zsh Plugins Lifecycle (termux-plugin)                 ${cyan}│${nocol}\n"
+    printf "${cyan}│${nocol}  [${green}4${nocol}] Package Profiles Assistant (termux-packages)          ${cyan}│${nocol}\n"
+    printf "${cyan}│${nocol}  [${green}5${nocol}] System Doctor & Diagnostics (termux-doctor)            ${cyan}│${nocol}\n"
+    printf "${cyan}│${nocol}  [${green}6${nocol}] Backup & Restoration Engine (termux-backup)           ${cyan}│${nocol}\n"
+    printf "${cyan}│${nocol}  [${green}7${nocol}] Exit                                                 ${cyan}│${nocol}\n"
+    printf "${cyan}└────────────────────────────────────────────────────────────┘${nocol}\n"
+
+    read -p "> " choice || choice="7"
+
+    case "${choice}" in
+        1) bash "${SCRIPT_DIR}/bin/termux-theme" list ;;
+        2) bash "${SCRIPT_DIR}/bin/termux-font" list ;;
+        3) bash "${SCRIPT_DIR}/bin/termux-plugin" list ;;
+        4) bash "${SCRIPT_DIR}/bin/termux-packages" list ;;
+        5) bash "${SCRIPT_DIR}/bin/termux-doctor" ;;
+        6) bash "${SCRIPT_DIR}/bin/termux-backup" list ;;
+        7) exit 0 ;;
+        *) ui_badge_msg "${badge_fail}" "Invalid choice." ;;
+    esac
+}
+
+show_menu

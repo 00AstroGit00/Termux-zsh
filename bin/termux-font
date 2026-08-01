@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# Termux-Zsh Font Manager CLI
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "${SCRIPT_DIR}/core/env.sh"
+source "${SCRIPT_DIR}/core/ui.sh"
+
+usage() {
+    printf "${bold}Usage:${nocol} termux-font [command]\n\n"
+    printf "Commands:\n"
+    printf "  list      List supported Nerd Fonts\n"
+    printf "  set <1-12> Download and set active font\n"
+    printf "  restore   Revert to default JetBrains Mono font\n"
+    exit 0
+}
+
+list_fonts() {
+    printf "${cyan}Supported Nerd Fonts:${nocol}\n"
+    printf "  1. JetBrains Mono (Light)\n"
+    printf "  2. JetBrains Mono (Regular - Default)\n"
+    printf "  3. Hack (Regular)\n"
+    printf "  4. Fira Code (Regular)\n"
+    printf "  5. MesloLGS NF (Regular)\n"
+    printf "  6. Source Code Pro (Regular)\n"
+    printf "  7. Iosevka Term (Regular)\n"
+    printf "  8. Mononoki (Regular)\n"
+    printf "  9. Terminus (Regular)\n"
+    printf "  10. Cascadia Code (Regular)\n"
+    printf "  11. IBM Plex Mono (Regular)\n"
+    printf "  12. Anonymous Pro (Regular)\n"
+}
+
+restore_font() {
+    mkdir -p "${TERMUX_HOME}/.termux"
+    cp -f "${SCRIPT_DIR}/Termux/font.ttf" "${TERMUX_HOME}/.termux/font.ttf"
+    ui_badge_msg "${badge_ok}" "Restored default JetBrains Mono font."
+    if command -v termux-reload-settings &>/dev/null; then
+        termux-reload-settings || true
+    fi
+}
+
+cmd="${1:-list}"
+case "${cmd}" in
+    list) list_fonts ;;
+    restore) restore_font ;;
+    set) bash "${SCRIPT_DIR}/Termux/fonts.sh" ;;
+    *) usage ;;
+esac

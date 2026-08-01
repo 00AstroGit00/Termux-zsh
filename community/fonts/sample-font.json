@@ -1,0 +1,8 @@
+{
+  "name": "Fira Code",
+  "variant": "Regular",
+  "author": "tonsky",
+  "nerd_font_version": "v3.2.1",
+  "archive_url": "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/FiraCode.tar.xz",
+  "fallback_font": "JetBrains Mono"
+}

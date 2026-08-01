@@ -1,0 +1,30 @@
+{
+  "version": "4.0.0",
+  "updated_at": "2026-08-01",
+  "plugins": [
+    {
+      "name": "zsh-autosuggestions",
+      "category": "completion",
+      "author": "zsh-users",
+      "repository": "https://github.com/zsh-users/zsh-autosuggestions.git",
+      "description": "Fish-like autosuggestions for zsh",
+      "verified": true
+    },
+    {
+      "name": "zsh-syntax-highlighting",
+      "category": "syntax",
+      "author": "zsh-users",
+      "repository": "https://github.com/zsh-users/zsh-syntax-highlighting.git",
+      "description": "Syntax highlighting for zsh commands",
+      "verified": true
+    },
+    {
+      "name": "zsh-completions",
+      "category": "completion",
+      "author": "zsh-users",
+      "repository": "https://github.com/zsh-users/zsh-completions.git",
+      "description": "Additional completion definitions for Zsh",
+      "verified": true
+    }
+  ]
+}

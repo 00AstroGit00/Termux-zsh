@@ -1,0 +1,10 @@
+{
+  "name": "TokyoNight",
+  "author": "folke",
+  "version": "1.0.0",
+  "variant": "dark",
+  "oled_compatible": true,
+  "accent_color": "#7aa2f7",
+  "recommended_font": "JetBrains Mono",
+  "properties_file": "TokyoNight.properties"
+}

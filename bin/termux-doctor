@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# Termux-Zsh Diagnostic & Auto-Repair Tool
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "${SCRIPT_DIR}/core/env.sh"
+source "${SCRIPT_DIR}/core/ui.sh"
+
+AUTO_FIX=false
+if [[ "${1:-}" == "--fix" ]]; then
+    AUTO_FIX=true
+fi
+
+printf "${cyan}=========================================${nocol}\n"
+printf "${bold}   Termux-Zsh System Doctor & Diagnostics   ${nocol}\n"
+printf "${cyan}=========================================${nocol}\n\n"
+
+errors=0
+warnings=0
+
+check_status() {
+    local condition="${1}"
+    local pass_msg="${2}"
+    local fail_msg="${3}"
+    local is_warning="${4:-false}"
+
+    if eval "${condition}"; then
+        ui_badge_msg "${badge_ok}" "${pass_msg}"
+    else
+        if [[ "${is_warning}" == "true" ]]; then
+            warnings=$((warnings + 1))
+            ui_badge_msg "${badge_warn}" "${fail_msg}"
+        else
+            errors=$((errors + 1))
+            ui_badge_msg "${badge_fail}" "${fail_msg}"
+        fi
+    fi
+}
+
+check_status "[[ -f '${TERMUX_HOME}/.zshrc' ]]" "Zsh configuration file exists (~/.zshrc)" "Missing ~/.zshrc file."
+check_status "zsh -n '${TERMUX_HOME}/.zshrc' &>/dev/null" "Zsh configuration syntax is valid" "Syntax errors detected in ~/.zshrc!"
+check_status "[[ -d '${TERMUX_HOME}/.oh-my-zsh' ]]" "Oh My Zsh installation found" "Missing ~/.oh-my-zsh directory."
+check_status "[[ -d '${ZSH_CUSTOM_DIR}/themes/powerlevel10k' ]]" "Powerlevel10k theme found" "Powerlevel10k theme not found in custom themes."
+check_status "[[ -f '${TERMUX_HOME}/.termux/font.ttf' ]]" "Termux font file exists (~/.termux/font.ttf)" "Missing ~/.termux/font.ttf file."
+check_status "[[ -f '${TERMUX_HOME}/.termux/colors.properties' ]]" "Termux colors properties file exists" "Missing ~/.termux/colors.properties file."
+check_status "command -v eza &>/dev/null" "eza modern replacement for ls is installed" "eza is not installed (optional)." true
+check_status "command -v bat &>/dev/null" "bat modern replacement for cat is installed" "bat is not installed (optional)." true
+check_status "command -v fzf &>/dev/null" "fzf fuzzy search engine is installed" "fzf is not installed (optional)." true
+check_status "command -v zoxide &>/dev/null" "zoxide smart cd navigator is installed" "zoxide is not installed (optional)." true
+check_status "command -v delta &>/dev/null || command -v git-delta &>/dev/null" "git-delta diff viewer is installed" "delta is not installed (optional)." true
+
+printf "\n"
+printf "${bold}Diagnostic Summary:${nocol} %d Errors, %d Warnings\n" "${errors}" "${warnings}"
+
+if [[ ${errors} -gt 0 && "${AUTO_FIX}" == "true" ]]; then
+    ui_badge_msg "${badge_warn}" "Attempting auto-repair..."
+    bash "${SCRIPT_DIR}/setup.sh"
+elif [[ ${errors} -gt 0 ]]; then
+    printf "To repair identified errors automatically, run: ${green}termux-doctor --fix${nocol}\n"
+fi

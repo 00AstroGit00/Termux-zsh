@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+# Termux-Zsh Plugin Manager CLI
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "${SCRIPT_DIR}/core/env.sh"
+source "${SCRIPT_DIR}/core/ui.sh"
+
+PLUGINS_DIR="${ZSH_CUSTOM_DIR}/plugins"
+
+usage() {
+    printf "${bold}Usage:${nocol} termux-plugin [command] [repo_url/name]\n\n"
+    printf "Commands:\n"
+    printf "  list            List installed custom plugins\n"
+    printf "  install <url>   Clone and install a custom Zsh plugin\n"
+    printf "  update          Update all custom Git plugins\n"
+    printf "  remove <name>   Remove a custom plugin\n"
+    exit 0
+}
+
+list_plugins() {
+    printf "${cyan}Installed Custom Plugins:${nocol}\n"
+    if [[ -d "${PLUGINS_DIR}" ]]; then
+        for plugin_dir in "${PLUGINS_DIR}"/*; do
+            if [[ -d "${plugin_dir}" ]]; then
+                printf "  - %s\n" "$(basename "${plugin_dir}")"
+            fi
+        done
+    else
+        ui_badge_msg "${badge_warn}" "No custom plugins directory found."
+    fi
+}
+
+update_plugins() {
+    ui_badge_msg "${badge_ok}" "Updating custom plugins..."
+    if [[ -d "${PLUGINS_DIR}" ]]; then
+        for plugin_dir in "${PLUGINS_DIR}"/*; do
+            if [[ -d "${plugin_dir}/.git" && "$(basename "${plugin_dir}")" != "example" ]]; then
+                printf "Updating %s...\n" "$(basename "${plugin_dir}")"
+                git -C "${plugin_dir}" pull --quiet || ui_badge_msg "${badge_warn}" "Failed to update $(basename "${plugin_dir}")"
+            fi
+        done
+        ui_badge_msg "${badge_ok}" "Plugins update process complete."
+    fi
+}
+
+cmd="${1:-list}"
+case "${cmd}" in
+    list) list_plugins ;;
+    update) update_plugins ;;
+    install)
+        if [[ -z "${2:-}" ]]; then
+            ui_badge_msg "${badge_fail}" "Provide a Git repository URL."
+            exit 1
+        fi
+        plugin_name="$(basename "${2}" .git)"
+        mkdir -p "${PLUGINS_DIR}"
+        git clone "${2}" "${PLUGINS_DIR}/${plugin_name}"
+        ui_badge_msg "${badge_ok}" "Installed plugin: ${plugin_name}"
+        ;;
+    remove)
+        if [[ -z "${2:-}" ]]; then
+            ui_badge_msg "${badge_fail}" "Provide plugin name to remove."
+            exit 1
+        fi
+        rm -rf "${PLUGINS_DIR}/${2}"
+        ui_badge_msg "${badge_ok}" "Removed plugin: ${2}"
+        ;;
+    *) usage ;;
+esac

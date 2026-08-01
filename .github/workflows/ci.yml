@@ -1,0 +1,38 @@
+name: Production QA & Release CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  static-analysis:
+    name: ShellCheck & Syntax Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: '.'
+
+      - name: Bash Syntax Check
+        run: |
+          bash -n setup.sh uninstall.sh core/*.sh bin/* motd/*.sh Termux/colors.sh Termux/fonts.sh Termux/motd.sh Android/termux-api.sh
+
+  zsh-syntax:
+    name: Zsh Syntax Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Zsh
+        run: sudo apt-get update && sudo apt-get install -y zsh
+
+      - name: Validate Zsh Scripts
+        run: |
+          zsh -n OhMyZsh/zshrc OhMyZsh/custom_aliases.zsh

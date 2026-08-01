@@ -32,7 +32,7 @@ NF_AP_R="${URL_NF}/AnonymousPro/Regular/AnonymiceProNerdFont-Regular.ttf"
 for ((i = 1; i <= "${#}"; i++)); do
 	arg="${!i}"
 	next_index=$((i + 1))
-	next_arg="${!next_index}"
+	next_arg="${!next_index:-}"
 
 	if [[ ${arg} == "-l" ]]; then
 		if [[ -z ${next_arg} || ${next_arg} == -* ]]; then
@@ -101,7 +101,7 @@ printf "
 
 while true; do
 	printf "\n"
-	read -p "${LANG_STRINGS[1]}: " input
+	read -p "${LANG_STRINGS[1]}: " input || input="q"
 
 	if [[ ${input} == "q" || ${input} == "Q" ]]; then
 		echo ""
@@ -147,16 +147,19 @@ while true; do
 	fi
 done
 
-if [[ -n ${URL} ]]; then
+if [[ -n ${URL:-} ]]; then
 	printf "${green}${LANG_STRINGS[3]}...${nocol}\n"
 	wget "${URL}" -O "${WORKING_DIR}/font.ttf.temp" > /dev/null 2>&1
-	fc-validate "${WORKING_DIR}/font.ttf.temp" > /dev/null 2>&1
-	if [ ${?} -ne 0 ]; then
-		printf "${red}${LANG_STRINGS[4]}${nocol}\n"
-		rm "${WORKING_DIR}/font.ttf.temp"
-		exit 1
+	if command -v fc-validate &>/dev/null; then
+		if ! fc-validate "${WORKING_DIR}/font.ttf.temp" > /dev/null 2>&1; then
+			printf "${red}${LANG_STRINGS[4]}${nocol}\n"
+			rm -f "${WORKING_DIR}/font.ttf.temp"
+			exit 1
+		fi
 	fi
 	mv "${WORKING_DIR}/font.ttf.temp" "${WORKING_DIR}/font.ttf"
 	printf "${green}${LANG_STRINGS[5]}!${nocol}\n"
-	termux-reload-settings
+	if command -v termux-reload-settings &>/dev/null; then
+		termux-reload-settings || true
+	fi
 fi

@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# Termux-Zsh Backup Manager CLI
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "${SCRIPT_DIR}/core/env.sh"
+source "${SCRIPT_DIR}/core/ui.sh"
+source "${SCRIPT_DIR}/core/backup_engine.sh"
+
+usage() {
+    printf "${bold}Usage:${nocol} termux-backup [command] [label]\n\n"
+    printf "Commands:\n"
+    printf "  list            List all timestamped backups\n"
+    printf "  create [label]  Create a new timestamped backup\n"
+    printf "  restore         Restore from the latest available backup\n"
+    printf "  clean           Clean backups older than 30 days\n"
+    exit 0
+}
+
+clean_backups() {
+    if [[ -d "${BACKUP_ROOT}" ]]; then
+        find "${BACKUP_ROOT}" -mindepth 1 -maxdepth 1 -type d -mtime +30 -exec rm -rf {} +
+        ui_badge_msg "${badge_ok}" "Cleaned backups older than 30 days."
+    fi
+}
+
+cmd="${1:-list}"
+case "${cmd}" in
+    list) backup_list ;;
+    create) backup_create "${2:-manual}" ;;
+    restore) backup_restore_latest ;;
+    clean) clean_backups ;;
+    *) usage ;;
+esac

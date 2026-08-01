@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+# Termux-Zsh Package Profile Assistant CLI (v3.1 API enabled)
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "${SCRIPT_DIR}/core/api.sh"
+
+usage() {
+    printf "${bold}Usage:${nocol} termux-packages [command] [profile_name]\n\n"
+    printf "Commands:\n"
+    printf "  list               List all available package profiles\n"
+    printf "  install <profile>  Install packages in a specific profile\n"
+    printf "  tools              Install modern CLI utilities (eza, bat, fzf, zoxide, ripgrep, fd, git-delta)\n"
+    exit 0
+}
+
+list_profiles() {
+    printf "${cyan}Available Developer Package Profiles:${nocol}\n"
+    printf "  - minimal    (curl, wget, git, micro, zsh, less, man)\n"
+    printf "  - dev        (build-essential, cmake, ninja, gdb, ripgrep, fd, git-delta)\n"
+    printf "  - python     (python, python-pip, libffi, openssl)\n"
+    printf "  - nodejs     (nodejs, yarn)\n"
+    printf "  - rust       (rust)\n"
+    printf "  - go         (golang)\n"
+    printf "  - android    (android-tools, openjdk-17)\n"
+    printf "  - devops     (openssh, rclone, rsync, docker-cli)\n"
+    printf "  - security   (nmap, netcat, tcpdump, termux-api)\n"
+    printf "  - aiml       (python, python-pip, clang, fftw, libxml2)\n"
+    printf "  - student    (micro, python, git, man, less)\n"
+}
+
+install_profile() {
+    local profile="${1:-}"
+    local pkgs=""
+
+    case "${profile}" in
+        minimal) pkgs="curl wget git micro zsh less man" ;;
+        dev) pkgs="build-essential cmake ninja gdb ripgrep fd git-delta" ;;
+        python) pkgs="python python-pip libffi openssl" ;;
+        nodejs) pkgs="nodejs yarn" ;;
+        rust) pkgs="rust" ;;
+        go) pkgs="golang" ;;
+        android) pkgs="android-tools openjdk-17" ;;
+        devops) pkgs="openssh rclone rsync docker-cli" ;;
+        security) pkgs="nmap netcat tcpdump termux-api" ;;
+        aiml) pkgs="python python-pip clang fftw libxml2" ;;
+        student) pkgs="micro python git man less" ;;
+        tools) pkgs="eza bat fzf zoxide ripgrep fd git-delta" ;;
+        *) api_log_error "Unknown profile: ${profile}"; exit 1 ;;
+    esac
+
+    api_log_info "Installing profile '${profile}' packages: ${pkgs}..."
+    if command -v pkg &>/dev/null; then
+        pkg update -y || true
+        pkg install -y ${pkgs} || api_log_warn "Package installation completed with warnings."
+    else
+        apt update -y || true
+        apt install -y ${pkgs} || api_log_warn "Package installation completed with warnings."
+    fi
+    api_log_success "Profile '${profile}' installation process finished."
+}
+
+cmd="${1:-list}"
+case "${cmd}" in
+    list) list_profiles ;;
+    tools) install_profile "tools" ;;
+    install) install_profile "${2:-minimal}" ;;
+    *) usage ;;
+esac

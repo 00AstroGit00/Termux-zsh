@@ -1,0 +1,14 @@
+{
+  "name": "zsh-autosuggestions",
+  "version": "0.7.0",
+  "author": "zsh-users",
+  "description": "Fish-like autosuggestions for zsh",
+  "repository": "https://github.com/zsh-users/zsh-autosuggestions.git",
+  "min_framework_version": "3.1.0",
+  "dependencies": [
+    "zsh"
+  ],
+  "hooks": {
+    "post_install": "scripts/post_install.sh"
+  }
+}
