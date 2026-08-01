@@ -36,4 +36,4 @@ jobs:
 
       - name: Validate Zsh Scripts
         run: |
-          zsh -n OhMyZsh/zshrc OhMyZsh/custom_aliases.zsh
+          zsh -n OhMyZsh/zshrc OhMyZsh/custom_aliases.zsh OhMyZsh/plugins/termux/_termux
