@@ -9,7 +9,7 @@ source "${SCRIPT_DIR}/core/ui.sh"
 COLORS_DIR="${SCRIPT_DIR}/Termux/colors"
 
 usage() {
-    printf "${bold}Usage:${nocol} termux-theme [command] [theme_name]\n\n"
+    printf "${bold}Usage:${nocol} termux theme [command] [theme_name]\n\n"
     printf "Commands:\n"
     printf "  list            List available dark and light themes\n"
     printf "  set <name>      Set active color scheme\n"

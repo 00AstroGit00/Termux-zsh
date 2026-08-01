@@ -56,5 +56,5 @@ if [[ ${errors} -gt 0 && "${AUTO_FIX}" == "true" ]]; then
     ui_badge_msg "${badge_warn}" "Attempting auto-repair..."
     bash "${SCRIPT_DIR}/setup.sh"
 elif [[ ${errors} -gt 0 ]]; then
-    printf "To repair identified errors automatically, run: ${green}termux-doctor --fix${nocol}\n"
+    printf "To repair identified errors automatically, run: ${green}termux doctor --fix${nocol}\n"
 fi

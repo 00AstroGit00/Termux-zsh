@@ -67,7 +67,7 @@ Install complete development stacks with one command using `termux packages inst
 | **`rust`** | `rust` |
 | **`go`** | `golang` |
 | **`android`** | `android-tools`, `openjdk-17` |
-| **`devops`** | `openssh`, `rclone`, `rsync`, `docker-cli` |
+| **`devops`** | `openssh`, `rclone`, `rsync`, `udocker` |
 | **`security`** | `nmap`, `netcat`, `tcpdump`, `termux-api` |
 | **`aiml`** | `python`, `python-pip`, `clang`, `fftw`, `libxml2` |
 | **`student`** | `micro`, `python`, `git`, `man`, `less` |

@@ -23,7 +23,7 @@ list_profiles() {
     printf "  - rust       (rust)\n"
     printf "  - go         (golang)\n"
     printf "  - android    (android-tools, openjdk-17)\n"
-    printf "  - devops     (openssh, rclone, rsync, docker-cli)\n"
+    printf "  - devops     (openssh, rclone, rsync, udocker)\n"
     printf "  - security   (nmap, netcat, tcpdump, termux-api)\n"
     printf "  - aiml       (python, python-pip, clang, fftw, libxml2)\n"
     printf "  - student    (micro, python, git, man, less)\n"
@@ -41,7 +41,7 @@ install_profile() {
         rust) pkgs="rust" ;;
         go) pkgs="golang" ;;
         android) pkgs="android-tools openjdk-17" ;;
-        devops) pkgs="openssh rclone rsync docker-cli" ;;
+        devops) pkgs="openssh rclone rsync udocker" ;;
         security) pkgs="nmap netcat tcpdump termux-api" ;;
         aiml) pkgs="python python-pip clang fftw libxml2" ;;
         student) pkgs="micro python git man less" ;;
