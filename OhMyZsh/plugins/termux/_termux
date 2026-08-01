@@ -1,0 +1,19 @@
+#compdef termux
+
+_termux() {
+    local -a subcmds
+    subcmds=(
+        'doctor:Run automated diagnostic health checks & repairs'
+        'theme:Switch terminal color schemes'
+        'font:Manage terminal Nerd Fonts'
+        'plugin:Manage Zsh custom plugins'
+        'package:Install developer package profiles'
+        'backup:Manage timestamped configuration backups'
+        'settings:Launch interactive settings dashboard TUI'
+        'version:Display framework version'
+    )
+
+    _describe -t commands 'termux subcommand' subcmds
+}
+
+_termux "$@"
