@@ -12,6 +12,8 @@ _termux() {
         'settings:Launch interactive settings dashboard TUI'
         'version:Display framework version'
         'update:Pull latest framework updates from GitHub'
+        'benchmark:Measure Zsh startup latency in milliseconds'
+        'reset:Reset configuration to baseline defaults (auto-backup)'
     )
 
     _describe -t commands 'termux subcommand' subcmds

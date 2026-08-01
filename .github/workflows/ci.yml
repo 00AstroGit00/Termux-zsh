@@ -18,6 +18,7 @@ jobs:
         uses: ludeeus/action-shellcheck@master
         with:
           scandir: '.'
+          version: 'v0.11.0'
 
       - name: Bash Syntax Check
         run: |

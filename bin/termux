@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Termux-Zsh Master CLI Entrypoint (v7.0.0 Production Release)
+# Termux-Zsh Master CLI Entrypoint (v9.0.0 Enterprise Release)
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -7,6 +7,43 @@ source "${SCRIPT_DIR}/core/api.sh"
 
 subcmd="${1:-help}"
 shift || true
+
+run_benchmark() {
+    printf "${cyan}Benchmarking Zsh startup latency (10 iterations)...${nocol}\n"
+    local total=0
+    for i in {1..5}; do zsh -i -c exit &>/dev/null; done # Warm-up
+    for i in {1..10}; do
+        local start_time end_time elapsed
+        start_time="$(date +%s%N 2>/dev/null || python3 -c 'import time; print(int(time.time()*1e9))' 2>/dev/null || echo 0)"
+        zsh -i -c exit &>/dev/null
+        end_time="$(date +%s%N 2>/dev/null || python3 -c 'import time; print(int(time.time()*1e9))' 2>/dev/null || echo 0)"
+        if [[ "${start_time}" != "0" && "${end_time}" != "0" ]]; then
+            elapsed=$(( (end_time - start_time) / 1000000 ))
+            total=$(( total + elapsed ))
+        fi
+    done
+    if [[ ${total} -gt 0 ]]; then
+        local avg=$(( total / 10 ))
+        local badge="${badge_ok}"
+        local tier="Fast 🚀"
+        if [[ ${avg} -gt 300 ]]; then
+            badge="${badge_fail}"
+            tier="Slow ⚠️"
+        elif [[ ${avg} -gt 150 ]]; then
+            badge="${badge_warn}"
+            tier="Normal ⚡"
+        fi
+        ui_badge_msg "${badge}" "Average Zsh startup time: ${avg} ms (${tier})"
+    else
+        ui_badge_msg "${badge_ok}" "Benchmark completed."
+    fi
+}
+
+run_reset() {
+    ui_badge_msg "${badge_warn}" "Creating snapshot backup before factory reset..."
+    exec bash "${SCRIPT_DIR}/bin/termux-backup" export "${HOME}/termux-zsh-pre-reset.tar.gz" &>/dev/null || true
+    exec bash "${SCRIPT_DIR}/setup.sh" -y
+}
 
 case "${subcmd}" in
     doctor)   exec bash "${SCRIPT_DIR}/bin/termux-doctor" "$@" ;;
@@ -16,28 +53,32 @@ case "${subcmd}" in
     package|profile) exec bash "${SCRIPT_DIR}/bin/termux-packages" "$@" ;;
     backup)   exec bash "${SCRIPT_DIR}/bin/termux-backup" "$@" ;;
     settings) exec bash "${SCRIPT_DIR}/bin/termux-settings" "$@" ;;
+    benchmark) run_benchmark ;;
+    reset)    run_reset ;;
     update)
         printf "Checking for updates...\n"
         git -C "${SCRIPT_DIR}" pull --ff-only && printf "Termux-zsh updated successfully.\n" || printf "Update failed. Check your network connection.\n"
         exit 0
         ;;
     version|--version|-v)
-        printf "Termux-zsh Framework v7.0.0 (Production Release)\n"
+        printf "Termux-zsh Framework v9.0.0 (Enterprise Release)\n"
         exit 0
         ;;
     help|--help|-h|*)
-        printf "${bold}Termux-Zsh Master CLI Framework (v7.0.0)${nocol}\n\n"
+        printf "${bold}Termux-Zsh Master CLI Framework (v9.0.0)${nocol}\n\n"
         printf "Usage: termux <subcommand> [args]\n\n"
         printf "Subcommands:\n"
-        printf "  doctor    Run diagnostic health checks & auto-repairs\n"
-        printf "  theme     Manage terminal color schemes and palettes\n"
-        printf "  font      Manage terminal Nerd Fonts\n"
-        printf "  plugin    Manage Zsh plugins and SDK manifests\n"
-        printf "  package   Manage developer package profiles\n"
-        printf "  backup    Manage timestamped configuration backups\n"
-        printf "  settings  Launch interactive settings dashboard TUI\n"
-        printf "  update    Pull latest changes from GitHub\n"
-        printf "  version   Display framework version details\n"
+        printf "  doctor     Run diagnostic health checks & auto-repairs\n"
+        printf "  theme      Manage terminal color schemes and palettes\n"
+        printf "  font       Manage terminal Nerd Fonts\n"
+        printf "  plugin     Manage Zsh plugins and SDK manifests\n"
+        printf "  package    Manage developer package profiles\n"
+        printf "  backup     Manage timestamped configuration backups\n"
+        printf "  settings   Launch interactive settings dashboard TUI\n"
+        printf "  benchmark  Measure Zsh startup latency in milliseconds\n"
+        printf "  reset      Reset configuration to baseline defaults (auto-backup)\n"
+        printf "  update     Pull latest changes from GitHub\n"
+        printf "  version    Display framework version details\n"
         exit 0
         ;;
 esac

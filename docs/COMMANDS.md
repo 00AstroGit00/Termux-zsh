@@ -1,4 +1,4 @@
-# Termux-Zsh v7.0.0 — Command Reference Manual
+# Termux-Zsh v9.0.0 — Command Reference Manual
 
 All management commands are accessed through the unified `termux` master CLI entrypoint.
 
@@ -15,12 +15,14 @@ termux <subcommand> [args]
 | Command | Usage | Description |
 | :--- | :--- | :--- |
 | `termux settings` | `termux settings` | Launch interactive TUI settings dashboard. |
-| `termux doctor` | `termux doctor [--fix]` | Run 12 automated diagnostic health checks. Pass `--fix` to auto-repair errors. |
-| `termux theme` | `termux theme [list\|set \<name\>\|current]` | Color scheme manager. Includes IrBlack, Catppuccin, Tokyo Night, Dracula, Nord. |
+| `termux doctor` | `termux doctor [--fix]` | Run 13 automated diagnostic health checks & Android 14/15 advisories. Pass `--fix` to auto-repair. |
+| `termux theme` | `termux theme [list\|set \<name\>\|preview \<name\>\|current]` | Color scheme manager with 16-color ANSI previewer. |
 | `termux font` | `termux font [list\|set \<1-12\>\|restore]` | Nerd Font manager. Supports 12 fonts including JetBrains Mono, Fira Code, Hack. |
 | `termux plugin` | `termux plugin [list\|install \<url\>\|update\|remove \<name\>]` | Zsh plugin lifecycle manager. |
 | `termux package` | `termux package [list\|install \<profile\>]` | Developer package profile installer (11 profiles). |
-| `termux backup` | `termux backup [list\|create \<label\>\|restore\|clean]` | Timestamped backup and restore manager. |
+| `termux backup` | `termux backup [list\|create\|restore\|export\|import\|clean]` | Backup manager & portable snapshot archive export/import (.tar.gz). |
+| `termux benchmark` | `termux benchmark` | Measure real Zsh startup latency in milliseconds over 10 iterations. |
+| `termux reset` | `termux reset` | Baseline factory reset with automatic snapshot backup creation. |
 | `termux update` | `termux update` | Pull latest framework updates from GitHub. |
 | `termux version` | `termux version` | Display framework version string. |
 
