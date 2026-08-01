@@ -1,6 +1,6 @@
 # Termux-zsh Modernized Setup
 
-🚀 **An enterprise-grade, ultra-fast, and modular Zsh framework for Termux on Android (10–16). Built for speed, safety, and developer productivity featuring Powerlevel10k (<15ms instant prompt), `fzf-tab` interactive completion, a 14-point automated diagnostic engine (`termux doctor`), portable snapshot backups, 11 curated developer package profiles, and modern CLI toolchains (`eza`, `bat`, `zoxide`, `ripgrep`, `delta`).**
+⚡ **An enterprise-grade, ultra-fast, and modular Zsh distribution framework for Termux on Android (10–16). Engineered for maximum developer velocity, safety, and shell aesthetics featuring Powerlevel10k (<15ms instant prompt), `fzf-tab` fuzzy completion overlays, a 14-point automated system diagnostic engine (`termux doctor`), emergency recovery CLI (`termux failsafe`), background task completion auto-notifications, portable configuration snapshot archives, 11 developer package profiles, and modern CLI toolchains (`eza`, `bat`, `zoxide`, `ripgrep`, `delta`).**
 
 [![Latest Release](https://img.shields.io/github/v/release/00AstroGit00/Termux-zsh?style=for-the-badge&color=00FF66&logo=github)](https://github.com/00AstroGit00/Termux-zsh/releases)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/00AstroGit00/Termux-zsh/ci.yml?branch=master&style=for-the-badge&logo=githubactions&color=00E5FF)](https://github.com/00AstroGit00/Termux-zsh/actions)
@@ -14,21 +14,21 @@
 
 ## ⚡ Quick One-Liner Installation
 
-### Recommended Automated Setup (`-y` Mode)
-Copy and paste this single command into Termux for non-interactive installation:
+### Recommended Automated Setup (`-y` Non-Interactive Mode)
+Copy and paste this single command into Termux for instant, non-interactive installation:
 
 ```bash
-pkg install -y git curl && rm -rf ~/Termux-zsh && git clone --depth=1 https://github.com/00AstroGit00/Termux-zsh.git ~/Termux-zsh && cd ~/Termux-zsh && bash setup.sh -y
+pkg update -y && pkg install -y git curl zsh && rm -rf ~/Termux-zsh && git clone --depth=1 https://github.com/00AstroGit00/Termux-zsh.git ~/Termux-zsh && cd ~/Termux-zsh && bash setup.sh -y
 ```
 
-### Interactive Setup Mode (Choose Custom Options)
-To run the setup interactively and choose your own package profiles and fonts:
+### Interactive Setup Mode (Custom Profile Selection)
+To launch interactive setup and customize developer package profiles, Nerd Fonts, and themes:
 
 ```bash
-pkg install -y git curl && rm -rf ~/Termux-zsh && git clone --depth=1 https://github.com/00AstroGit00/Termux-zsh.git ~/Termux-zsh && cd ~/Termux-zsh && bash setup.sh
+pkg update -y && pkg install -y git curl zsh && rm -rf ~/Termux-zsh && git clone --depth=1 https://github.com/00AstroGit00/Termux-zsh.git ~/Termux-zsh && cd ~/Termux-zsh && bash setup.sh
 ```
 
-### Direct Remote Bootstrap (Curl Pipe)
+### Direct Remote One-Liner Bootstrap
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/00AstroGit00/Termux-zsh/master/setup.sh)" -- -y
 ```
