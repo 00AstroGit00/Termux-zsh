@@ -61,11 +61,11 @@ case "${subcmd}" in
         exit 0
         ;;
     version|--version|-v)
-        printf "Termux-zsh Framework v9.0.0 (Enterprise Release)\n"
+        printf "Termux-zsh Framework v10.0.0 (Milestone Release)\n"
         exit 0
         ;;
     help|--help|-h|*)
-        printf "${bold}Termux-Zsh Master CLI Framework (v9.0.0)${nocol}\n\n"
+        printf "${bold}Termux-Zsh Master CLI Framework (v10.0.0)${nocol}\n\n"
         printf "Usage: termux <subcommand> [args]\n\n"
         printf "Subcommands:\n"
         printf "  doctor     Run diagnostic health checks & auto-repairs\n"
