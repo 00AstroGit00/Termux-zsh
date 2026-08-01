@@ -11,6 +11,7 @@ _termux() {
         'backup:Manage timestamped configuration backups'
         'settings:Launch interactive settings dashboard TUI'
         'version:Display framework version'
+        'update:Pull latest framework updates from GitHub'
     )
 
     _describe -t commands 'termux subcommand' subcmds

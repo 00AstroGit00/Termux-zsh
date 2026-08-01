@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Termux-Zsh Package Profile Assistant CLI (v3.1 API enabled)
+# Termux-Zsh Package Profile Assistant CLI (v7.0.0)
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

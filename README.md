@@ -5,7 +5,7 @@
 [![Latest Release](https://img.shields.io/github/v/release/00AstroGit00/Termux-zsh?style=for-the-badge&color=00FF66&logo=github)](https://github.com/00AstroGit00/Termux-zsh/releases)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/00AstroGit00/Termux-zsh/ci.yml?branch=master&style=for-the-badge&logo=githubactions&color=00E5FF)](https://github.com/00AstroGit00/Termux-zsh/actions)
 [![License](https://img.shields.io/github/license/00AstroGit00/Termux-zsh?style=for-the-badge&color=7AA2F7)](LICENSE)
-[![API Status](https://img.shields.io/badge/API-FROZEN_v6.0-green?style=for-the-badge&color=00FF66)](#)
+[![API Status](https://img.shields.io/badge/API-FROZEN_v7.0-green?style=for-the-badge&color=00FF66)](#)
 [![Android](https://img.shields.io/badge/Android-10--16_Compatible-blue?style=for-the-badge&logo=android&color=3DDC84)](#)
 
 ![Termux-zsh-SS](Termux-zsh-SS.png)
@@ -45,7 +45,7 @@ Manage your environment effortlessly using the unified `termux` master command:
 | Command | Usage | Description |
 | :--- | :--- | :--- |
 | **`termux`** | `termux <subcommand>` | Master CLI entrypoint wrapper. |
-| **`termux doctor`** | `termux doctor [--fix]` | Runs 12 automated diagnostic health checks & auto-repairs. |
+| **`termux doctor`** | `termux doctor [--fix]` | Runs 11 automated diagnostic health checks & auto-repairs. |
 | **`termux theme`** | `termux theme [list\|set\|current]` | Switch color schemes (IrBlack, Catppuccin, Tokyo Night, Dracula, Nord). |
 | **`termux font`** | `termux font [list\|set\|restore]` | Switch Nerd Fonts (JetBrains Mono, Fira Code, Cascadia, Hack, MesloLGS). |
 | **`termux plugin`** | `termux plugin [list\|install\|update]` | Manage custom Zsh plugins. |
@@ -86,4 +86,4 @@ Install complete development stacks with one command using `termux packages inst
 
 ## 🤝 License & Governance
 
-Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for details.
+Distributed under the **GNU General Public License v3.0 (GPLv3)**. See [`LICENSE`](LICENSE) for details.

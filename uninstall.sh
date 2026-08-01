@@ -63,6 +63,26 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
         printf "Restored: MOTD banner\n"
     fi
 
+    # Remove MOTD symlink installed by setup.sh
+    if [[ -L "${PREFIX:-/data/data/com.termux/files/usr}/etc/motd.sh" ]]; then
+        rm -f "${PREFIX:-/data/data/com.termux/files/usr}/etc/motd.sh"
+        printf "Removed: MOTD runner symlink\n"
+    fi
+
+    # Remove CLI tool symlinks from ~/bin
+    for cli_tool in termux termux-doctor termux-theme termux-font termux-plugin termux-packages termux-backup termux-settings; do
+        if [[ -L "${HOME}/bin/${cli_tool}" ]]; then
+            rm -f "${HOME}/bin/${cli_tool}"
+        fi
+    done
+    printf "Removed: CLI tool symlinks from ~/bin/\n"
+
+    # Remove MOTD modules
+    if [[ -d "${HOME}/.termux/motd" ]]; then
+        rm -rf "${HOME}/.termux/motd"
+        printf "Removed: MOTD modules from ~/.termux/motd/\n"
+    fi
+
     printf "\n${green}Restoration completed successfully!${nocol}\n"
 fi
 

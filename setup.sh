@@ -201,6 +201,29 @@ install_ohmyzsh() {
 	printf "%b %s!\n" "${badge_ok}" "${LANG_STRINGS[14]}"
 }
 
+install_cli_tools() {
+	printf "%b Installing CLI management tools...\n" "${badge_ok}"
+	mkdir -p "${HOME}/bin"
+	for cli_script in "${SCRIPT_DIR}/bin"/*; do
+		local script_name
+		script_name="$(basename "${cli_script}")"
+		ln -sf "${cli_script}" "${HOME}/bin/${script_name}"
+		chmod +x "${cli_script}"
+	done
+
+	# Install MOTD modules
+	mkdir -p "${HOME}/.termux/motd"
+	cp -f "${SCRIPT_DIR}/motd"/*.sh "${HOME}/.termux/motd/"
+	chmod +x "${HOME}/.termux/motd"/*.sh
+
+	# Install Zsh completion plugin
+	local zsh_custom="${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}"
+	if [[ -d "${zsh_custom}" ]]; then
+		mkdir -p "${zsh_custom}/plugins/termux"
+		cp -f "${SCRIPT_DIR}/OhMyZsh/plugins/termux/_termux" "${zsh_custom}/plugins/termux/_termux"
+	fi
+}
+
 finish_install() {
 	if [ ! -d "${HOME}/.config" ]; then
 		mkdir -p "${HOME}/.config"
@@ -254,6 +277,7 @@ main() {
 			install_optional_modern_tools
 			configure_termux
 			install_ohmyzsh
+			install_cli_tools
 			finish_install
 			exit 0
 			;;

@@ -124,7 +124,7 @@ while true; do
 		exit 0
 	elif [[ "${input}" =~ ^[0-9]+$ ]] && ((input >= 1 && input <= count)); then
 		choice="${colors_name[input]}"
-		ln -fs "${COLORS_DIR}/${THEME_TYPE}/${choice}.properties" "${WORKING_DIR}/colors.properties"
+		ln -fs "${COLORS_DIR}/${THEME_TYPE}/${choice}.properties" "${HOME}/.termux/colors.properties"
 		printf "${green}${LANG_STRINGS[11]}${nocol}\n"
 		if command -v termux-reload-settings &>/dev/null; then
 			termux-reload-settings || true
