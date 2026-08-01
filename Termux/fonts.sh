@@ -13,7 +13,7 @@ nocol="\033[0m"  # Default
 WORKING_DIR="$(dirname "${BASH_SOURCE[0]}")"
 LANG_CODE="en"
 MLGSNF_VERSION="v2.3.3" # Meslo font release version from powerlevel-media (https://github.com/romkatv/powerlevel10k-media)
-NF_VERSION="v3.2.1"     # Nerd font release version (https://github.com/ryanoasis/nerd-fonts)
+NF_VERSION="v3.4.0"     # Nerd font release version (https://github.com/ryanoasis/nerd-fonts)
 MLGSNF_R="https://github.com/romkatv/powerlevel10k-media/raw/${MLGSNF_VERSION}/MesloLGS%20NF%20Regular.ttf"
 URL_NF="https://github.com/ryanoasis/nerd-fonts/raw/${NF_VERSION}/patched-fonts"
 NF_JBM_L="${URL_NF}/JetBrainsMono/Ligatures/Light/JetBrainsMonoNerdFont-Light.ttf"
@@ -90,7 +90,7 @@ printf "
 [${green}5${nocol}] MesloLGS NF (Regular)
 [${green}6${nocol}] Source Code Pro (Regular)
 [${green}7${nocol}] Iosevka Term (Regular)
-[${green}8${nocol}] Monokai (Regular)
+[${green}8${nocol}] Mononoki (Regular)
 [${green}9${nocol}] Terminus (Regular)
 [${green}10${nocol}] Cascadia Code (Regular)
 [${green}11${nocol}] IBM Plex Mono (Regular)
