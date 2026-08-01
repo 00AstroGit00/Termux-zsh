@@ -1,10 +1,20 @@
 # Termux-zsh Modernized Setup
 
+⚡ **An ultra-fast, modular, and feature-rich Zsh environment for Termux featuring Powerlevel10k, curated color schemes, Nerd Fonts, centered touch D-pad layout, and built-in CLI management tools.**
+
 ![Termux-zsh-SS](Termux-zsh-SS.png)
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/598b9e66297c4323a25dada99d377a11)](https://app.codacy.com/gh/Sohil876/Termux-zsh/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
-A comprehensive, non-destructive, and modern customization suite for [Termux](https://termux.dev/) on Android, powered by **Zsh**, **Oh My Zsh**, **Powerlevel10k**, **Nerd Fonts**, custom color themes, and the **`lf`** terminal file manager.
+---
+
+## ⚡ Quick One-Liner Installation
+
+Copy and paste this single command into Termux:
+
+```bash
+pkg update -y && pkg install -y git && rm -rf Termux-zsh && git clone --depth=1 https://github.com/00AstroGit00/Termux-zsh.git && cd Termux-zsh && bash setup.sh
+```
 
 ---
 
