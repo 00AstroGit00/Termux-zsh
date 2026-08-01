@@ -13,6 +13,7 @@ printf "${green}│${nocol}  ${bold}Ctrl + E${nocol}    Edit current command lin
 printf "${green}└──────────────────────────────────────────────────────────────────────┘${nocol}\n"
 
 printf "${cyan}┌── 🛠️  CUSTOMIZATION COMMANDS ──────────────────────────────────────────┐${nocol}\n"
-printf "${cyan}│${nocol}  ${bold}termux-settings${nocol}  Launch interactive settings dashboard menu            ${cyan}│${nocol}\n"
-printf "${cyan}│${nocol}  ${bold}termux-doctor${nocol}    Run system health diagnostics and auto-repair       ${cyan}│${nocol}\n"
+printf "${cyan}│${nocol}  ${bold}termux settings${nocol}  Launch interactive settings dashboard menu           ${cyan}│${nocol}\n"
+printf "${cyan}│${nocol}  ${bold}termux doctor${nocol}    Run system health diagnostics and auto-repair        ${cyan}│${nocol}\n"
+printf "${cyan}│${nocol}  ${bold}termux update${nocol}    Pull latest framework updates from GitHub           ${cyan}│${nocol}\n"
 printf "${cyan}└──────────────────────────────────────────────────────────────────────┘${nocol}\n\n"

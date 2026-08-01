@@ -16,12 +16,17 @@ case "${subcmd}" in
     package|profile) exec bash "${SCRIPT_DIR}/bin/termux-packages" "$@" ;;
     backup)   exec bash "${SCRIPT_DIR}/bin/termux-backup" "$@" ;;
     settings) exec bash "${SCRIPT_DIR}/bin/termux-settings" "$@" ;;
+    update)
+        printf "Checking for updates...\n"
+        git -C "${SCRIPT_DIR}" pull --ff-only && printf "Termux-zsh updated successfully.\n" || printf "Update failed. Check your network connection.\n"
+        exit 0
+        ;;
     version|--version|-v)
-        printf "Termux-zsh Framework v4.0.0 (Enterprise Release)\n"
+        printf "Termux-zsh Framework v7.0.0 (Production Release)\n"
         exit 0
         ;;
     help|--help|-h|*)
-        printf "${bold}Termux-Zsh Master CLI Framework (v4.0.0)${nocol}\n\n"
+        printf "${bold}Termux-Zsh Master CLI Framework (v7.0.0)${nocol}\n\n"
         printf "Usage: termux <subcommand> [args]\n\n"
         printf "Subcommands:\n"
         printf "  doctor    Run diagnostic health checks & auto-repairs\n"
@@ -31,6 +36,7 @@ case "${subcmd}" in
         printf "  package   Manage developer package profiles\n"
         printf "  backup    Manage timestamped configuration backups\n"
         printf "  settings  Launch interactive settings dashboard TUI\n"
+        printf "  update    Pull latest changes from GitHub\n"
         printf "  version   Display framework version details\n"
         exit 0
         ;;
