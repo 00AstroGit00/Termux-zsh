@@ -18,11 +18,22 @@ jobs:
         uses: ludeeus/action-shellcheck@master
         with:
           scandir: '.'
+          additional_files: 'bin/*'
           version: 'v0.11.0'
 
       - name: Bash Syntax Check
         run: |
-          bash -n setup.sh uninstall.sh core/*.sh bin/* motd/*.sh Termux/colors.sh Termux/fonts.sh Termux/motd.sh Android/termux-api.sh
+          bash -n setup.sh uninstall.sh core/*.sh bin/* motd/*.sh tests/*.sh Termux/colors.sh Termux/fonts.sh Termux/motd.sh Android/termux-api.sh
+
+  unit-tests:
+    name: Framework Unit Test Suite
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Unit Tests
+        run: bash tests/run_tests.sh
 
   zsh-syntax:
     name: Zsh Syntax Validation
