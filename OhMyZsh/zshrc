@@ -89,6 +89,42 @@ if [[ -f "${HOME}/.config/lf/lfcd.sh" ]]; then
     bindkey -s "^o" "lfcd\n"
 fi
 
+# Long-running command auto-notification hook (>10s)
+__cmd_start_time=0
+__cmd_name=""
+
+__auto_notify_preexec() {
+    __cmd_start_time=${SECONDS}
+    __cmd_name="${1:-}"
+}
+
+__auto_notify_precmd() {
+    if [[ ${__cmd_start_time} -gt 0 ]]; then
+        local elapsed=$(( SECONDS - __cmd_start_time ))
+        if [[ ${elapsed} -ge 10 ]] && command -v termux-notification &>/dev/null; then
+            termux-notification --title "Command Completed (${elapsed}s)" --content "${__cmd_name}" --priority low 2>/dev/null || true
+            command -v termux-vibrate &>/dev/null && termux-vibrate -d 100 2>/dev/null || true
+        fi
+        __cmd_start_time=0
+    fi
+}
+autoload -Uz add-zsh-hook 2>/dev/null || true
+add-zsh-hook preexec __auto_notify_preexec 2>/dev/null || true
+add-zsh-hook precmd __auto_notify_precmd 2>/dev/null || true
+
+# Custom Powerlevel10k prompt segment for Android battery
+prompt_android_battery() {
+    if [[ -f /sys/class/power_supply/battery/capacity ]]; then
+        local cap="$(cat /sys/class/power_supply/battery/capacity 2>/dev/null || echo '')"
+        local status="$(cat /sys/class/power_supply/battery/status 2>/dev/null || echo '')"
+        local icon="🔋"
+        [[ "${status}" == "Charging" ]] && icon="⚡"
+        if [[ -n "${cap}" ]]; then
+            p10k segment -f 7 -t "${icon} ${cap}%"
+        fi
+    fi
+}
+
 autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey "^e" edit-command-line

@@ -10,6 +10,7 @@ _termux() {
         'package:Install developer package profiles'
         'backup:Manage timestamped configuration backups'
         'settings:Launch interactive settings dashboard TUI'
+        'failsafe:Emergency configuration recovery & repair'
         'version:Display framework version'
         'update:Pull latest framework updates from GitHub'
         'benchmark:Measure Zsh startup latency in milliseconds'
@@ -69,6 +70,15 @@ _termux() {
                     'clean:Clean backups older than 30 days'
                 )
                 _describe -t commands 'backup subcommand' backup_cmds
+                ;;
+            failsafe)
+                local -a failsafe_cmds
+                failsafe_cmds=(
+                    'check:Validate .zshrc and plugin syntax'
+                    'repair:Restore baseline .zshrc and clear caches'
+                    'reset-shell:Revert default login shell back to bash'
+                )
+                _describe -t commands 'failsafe subcommand' failsafe_cmds
                 ;;
             doctor)
                 local -a doctor_flags

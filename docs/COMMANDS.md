@@ -1,4 +1,4 @@
-# Termux-Zsh v11.0.0 — Command Reference Manual
+# Termux-Zsh v12.0.0 — Command Reference Manual
 
 All management commands are accessed through the unified `termux` master CLI entrypoint.
 
@@ -21,8 +21,9 @@ termux <subcommand> [args]
 | `termux plugin` | `termux plugin [list\|install \<url\>\|update\|remove \<name\>]` | Zsh plugin lifecycle manager. |
 | `termux package` | `termux package [list\|install \<profile\>]` | Developer package profile installer (11 profiles). |
 | `termux backup` | `termux backup [list\|create\|restore\|export\|import\|clean]` | Backup manager & portable snapshot archive export/import (.tar.gz). |
-| `termux benchmark` | `termux benchmark` | Measure real Zsh startup latency in milliseconds over 10 iterations. |
+| `termux benchmark` | `termux benchmark` | Measure real Zsh startup latency in milliseconds. |
 | `termux reset` | `termux reset` | Baseline factory reset with automatic snapshot backup creation. |
+| `termux failsafe` | `termux failsafe [check\|repair\|reset-shell]` | Emergency configuration recovery & syntax validation tool. |
 | `termux update` | `termux update` | Pull latest framework updates from GitHub. |
 | `termux version` | `termux version` | Display framework version string. |
 

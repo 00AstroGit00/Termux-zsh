@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# Termux-Zsh Failsafe Recovery & Diagnostic Tool
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "${SCRIPT_DIR}/core/env.sh"
+source "${SCRIPT_DIR}/core/ui.sh"
+
+usage() {
+    printf "${bold}Termux-Zsh Failsafe Recovery Tool${nocol}\n\n"
+    printf "Usage: termux failsafe [command]\n\n"
+    printf "Commands:\n"
+    printf "  check     Validate .zshrc and plugin directory syntax\n"
+    printf "  repair    Restore baseline .zshrc and clear broken plugin caches\n"
+    printf "  reset-shell  Revert default login shell back to bash\n"
+    exit 0
+}
+
+check_failsafe() {
+    ui_badge_msg "${badge_ok}" "Running failsafe configuration checks..."
+    
+    if [[ -f "${TERMUX_HOME}/.zshrc" ]]; then
+        if zsh -n "${TERMUX_HOME}/.zshrc" &>/dev/null; then
+            ui_badge_msg "${badge_ok}" "~/.zshrc syntax is valid."
+        else
+            ui_badge_msg "${badge_fail}" "Syntax error detected in ~/.zshrc!"
+        fi
+    else
+        ui_badge_msg "${badge_warn}" "Missing ~/.zshrc file."
+    fi
+
+    if [[ -d "${TERMUX_HOME}/.oh-my-zsh" ]]; then
+        ui_badge_msg "${badge_ok}" "Oh My Zsh installation directory exists."
+    else
+        ui_badge_msg "${badge_warn}" "Missing ~/.oh-my-zsh directory."
+    fi
+}
+
+repair_failsafe() {
+    ui_badge_msg "${badge_warn}" "Performing emergency failsafe repair..."
+    
+    # Backup current broken zshrc
+    if [[ -f "${TERMUX_HOME}/.zshrc" ]]; then
+        cp -f "${TERMUX_HOME}/.zshrc" "${TERMUX_HOME}/.zshrc.broken.$(date +%s)"
+        ui_badge_msg "${badge_ok}" "Saved broken ~/.zshrc to backup."
+    fi
+
+    # Restore default clean .zshrc
+    cp -f "${SCRIPT_DIR}/OhMyZsh/zshrc" "${TERMUX_HOME}/.zshrc"
+    ui_badge_msg "${badge_ok}" "Restored clean baseline ~/.zshrc."
+
+    # Clear zsh completion cache and gitstatus cache
+    rm -rf "${TERMUX_HOME}/.zcompdump"* "${TERMUX_HOME}/.cache/gitstatus"
+    ui_badge_msg "${badge_ok}" "Cleared Zsh completion & gitstatus caches."
+}
+
+reset_shell() {
+    ui_badge_msg "${badge_warn}" "Reverting default login shell to bash..."
+    if command -v chsh &>/dev/null; then
+        chsh -s bash
+        ui_badge_msg "${badge_ok}" "Default login shell changed to bash."
+    fi
+}
+
+cmd="${1:-check}"
+case "${cmd}" in
+    check) check_failsafe ;;
+    repair) repair_failsafe ;;
+    reset-shell) reset_shell ;;
+    *) usage ;;
+esac

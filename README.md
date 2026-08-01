@@ -5,7 +5,7 @@
 [![Latest Release](https://img.shields.io/github/v/release/00AstroGit00/Termux-zsh?style=for-the-badge&color=00FF66&logo=github)](https://github.com/00AstroGit00/Termux-zsh/releases)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/00AstroGit00/Termux-zsh/ci.yml?branch=master&style=for-the-badge&logo=githubactions&color=00E5FF)](https://github.com/00AstroGit00/Termux-zsh/actions)
 [![License](https://img.shields.io/github/license/00AstroGit00/Termux-zsh?style=for-the-badge&color=7AA2F7)](LICENSE)
-[![API Status](https://img.shields.io/badge/API-FROZEN_v11.0-green?style=for-the-badge&color=00FF66)](#)
+[![API Status](https://img.shields.io/badge/API-FROZEN_v12.0-green?style=for-the-badge&color=00FF66)](#)
 [![Android](https://img.shields.io/badge/Android-10--16_Compatible-blue?style=for-the-badge&logo=android&color=3DDC84)](#)
 
 ![Termux-zsh-SS](Termux-zsh-SS.png)
@@ -35,9 +35,9 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/00AstroGit00/Termux-zsh/
 
 ---
 
-## ⌨️ Centered Touch Keyboard D-Pad Layout
+## ⌨️ Centered Touch Keyboard D-Pad Layout with Gesture Popups
 
-`Termux-zsh` configures a centered, touch-friendly arrow D-pad on your Termux extra-keys bar (`termux.properties`):
+`Termux-zsh` configures a centered, touch-friendly arrow D-pad with swipe-up popup key macros on your Termux extra-keys bar (`termux.properties`):
 
 ```
 ┌──────┬──────┬──────┬──────┬──────┬──────┬──────┐
@@ -46,8 +46,9 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/00AstroGit00/Termux-zsh/
 │ TAB  │ ALT  │ LEFT │ DOWN │RIGHT │ END  │SHIFT │  Row 2 (Bottom)
 └──────┴──────┴──────┴──────┴──────┴──────┴──────┘
 ```
-- **Top Center (Col 4, Row 1)**: `UP` Arrow
-- **Bottom Center (Cols 3–5, Row 2)**: `LEFT` – `DOWN` – `RIGHT` Arrows (centered directly below `UP`)
+- **Top Center (Col 4, Row 1)**: `UP` Arrow (Swipe up for `PGUP`)
+- **Bottom Center (Cols 3–5, Row 2)**: `LEFT` – `DOWN` – `RIGHT` Arrows (Swipe up for `HOME`, `PGDN`, `END`)
+- **Gesture Popups**: Swipe up on `ESC` for `:q\n`, `TAB` for `:wq\n`, `/` for `\`, `(` for `{`, `)` for `}`.
 
 ---
 
@@ -58,12 +59,13 @@ Manage your environment effortlessly using the unified `termux` master command:
 | Command | Usage | Description |
 | :--- | :--- | :--- |
 | **`termux`** | `termux <subcommand>` | Master CLI entrypoint wrapper. |
-| **`termux doctor`** | `termux doctor [--fix]` | Runs 11 automated diagnostic health checks & auto-repairs. |
+| **`termux doctor`** | `termux doctor [--fix]` | Runs 14 automated diagnostic health checks & auto-repairs. |
 | **`termux theme`** | `termux theme [list\|set\|current]` | Switch color schemes (IrBlack, Catppuccin, Tokyo Night, Dracula, Nord). |
 | **`termux font`** | `termux font [list\|set\|restore]` | Switch Nerd Fonts (JetBrains Mono, Fira Code, Cascadia, Hack, MesloLGS). |
 | **`termux plugin`** | `termux plugin [list\|install\|update]` | Manage custom Zsh plugins. |
-| **`termux packages`** | `termux packages [list\|install]` | Install pre-configured developer package profiles. |
+| **`termux package`** | `termux package [list\|install]` | Install pre-configured developer package profiles. |
 | **`termux backup`** | `termux backup [list\|create\|restore\|export\|import]` | Manage timestamped backups and portable snapshot archives. |
+| **`termux failsafe`** | `termux failsafe [check\|repair\|reset-shell]` | Emergency shell configuration diagnostic & recovery tool. |
 
 ---
 
